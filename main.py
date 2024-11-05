@@ -1,7 +1,7 @@
 # Oppskrift 
-# - finne dna datasett
-# - lage program som leser datasett
-# - lage prpogroam som krypterer og lager komplimentert RNA-molekyl som tekst eller liste
+# - finne dna datasett - X
+# - lage program som leser datasett - X
+# - lage prpogroam som krypterer og lager komplimentert RNA-molekyl som tekst eller liste - X
 # - oversikt over aminosyrer i riktig rekkefølge 
 # - stoppe programmet om man finner stopp kodon. 
 inputfile = "Chimpanzee.txt"
@@ -44,7 +44,7 @@ def translate(rna):
         if codon in aminosyrer:
             amino_acid = aminosyrer[codon]
             if amino_acid == '_':  # Stopp kodon funnet
-                protein += ','
+                protein += ' '
             protein += amino_acid
         else:
             print(f"Unknown codon encountered: {codon}")
@@ -55,5 +55,4 @@ def translate(rna):
 # Utfør oversettelsen og skriv ut resultatet
 rna = dna_to_rna(seq)
 protein_sequence = translate(rna)
-print(rna)
 print(protein_sequence)
