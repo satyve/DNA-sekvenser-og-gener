@@ -16,8 +16,8 @@ def dna_to_rna(dna_seq):
     return dna_seq.replace("T", "U") #.replace("A", "U").replace("C", "G").replace("G", "C")
 
 
-def translate(seq): 
-    table = { 
+def translate(rna): 
+    aminosyrer = { 
         'AUA':'I', 'AUC':'I', 'AUU':'I', 'AUG':'M', 
         'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACU':'T', 
         'AAC':'N', 'AAU':'N', 'AAA':'K', 'AAG':'K', 
@@ -37,18 +37,23 @@ def translate(seq):
     } 
     protein = ""
     for i in range(0, len(seq), 3):
-        codon = seq[i:i + 3]
-        if codon in table:
-            amino_acid = table[codon]
+        codon = rna[i:i + 3]
+        if len(codon) < 3:
+            print(f"Incomplete codon skipped: {codon}")
+            continue
+        if codon in aminosyrer:
+            amino_acid = aminosyrer[codon]
             if amino_acid == '_':  # Stopp kodon funnet
-                break
+                protein += ','
             protein += amino_acid
         else:
+            print(f"Unknown codon encountered: {codon}")
             protein += '?'  # Håndter uventede kodoner
-
     return protein
+
 
 # Utfør oversettelsen og skriv ut resultatet
 rna = dna_to_rna(seq)
-protein_sequence = translate(seq)
+protein_sequence = translate(rna)
+print(rna)
 print(protein_sequence)
