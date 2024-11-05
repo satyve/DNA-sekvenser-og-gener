@@ -4,6 +4,7 @@
 # - lage prpogroam som krypterer og lager komplimentert RNA-molekyl som tekst eller liste - X
 # - oversikt over aminosyrer i riktig rekkefølge 
 # - stoppe programmet om man finner stopp kodon. 
+# herpes, hemoglobin, kollagen, insulin, kearatin, immuno-katt, amylase
 inputfile = "Chimpanzee.txt"
 with open(inputfile, "r") as f:
     seq = f.read()
