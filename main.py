@@ -11,11 +11,11 @@ with open(inputfile, "r") as f:
 # Fjerner linjeskift
 seq = seq.replace("\n", "").replace("\r", "")
 
-""""
+
 def dna_to_rna(dna_seq):
-    return dna_seq.replace("T", "U").replace("A", "U").replace("C", "G").replace("G", "C")
+    return dna_seq.replace("T", "U") #.replace("A", "U").replace("C", "G").replace("G", "C")
 print(dna_seq)
-"""
+
 
 def translate(seq): 
     table = { 
@@ -36,6 +36,7 @@ def translate(seq):
         'UAC':'Y', 'UAU':'Y', 'UAA':'_', 'UAG':'_', 
         'UGC':'C', 'UGU':'C', 'UGA':'_', 'UGG':'W', 
     } 
+    
     protein ="" 
     for i in range(0, len(seq) - len(seq) % 3, 3): 
         codon = seq[i:i + 3] 
