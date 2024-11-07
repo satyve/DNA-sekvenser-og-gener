@@ -4,8 +4,8 @@
 # - lage prpogroam som krypterer og lager komplimentert RNA-molekyl som tekst eller liste - X
 # - oversikt over aminosyrer i riktig rekkefølge 
 # - stoppe programmet om man finner stopp kodon. 
-# herpes, hemoglobin, kollagen, insulin, kearatin, immuno-katt, amylase
-inputfile = "Chimpanzee.txt"
+
+inputfile = "DNA.txt"
 with open(inputfile, "r") as f:
     seq = f.read()
 
@@ -33,27 +33,47 @@ def translate(rna):
         'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGU':'G', 
         'UCA':'S', 'UCC':'S', 'UCG':'S', 'UCU':'S', 
         'UUC':'F', 'UUU':'F', 'UUA':'L', 'UUG':'L', 
-        'UAC':'Y', 'UAU':'Y', 'UAA':'_', 'UAG':'_', 
-        'UGC':'C', 'UGU':'C', 'UGA':'_', 'UGG':'W', 
+        'UAC':'Y', 'UAU':'Y', 'UAA':' ', 'UAG':' ', 
+        'UGC':'C', 'UGU':'C', 'UGA':' ', 'UGG':'W', 
     } 
-    protein = ""
-    for i in range(0, len(seq), 3):
+    protein = []
+    aminosyre = ""
+    for i in range(0, len(rna), 3):
         codon = rna[i:i + 3]
         if len(codon) < 3:
-            print(f"Incomplete codon skipped: {codon}")
             continue
         if codon in aminosyrer:
             amino_acid = aminosyrer[codon]
-            if amino_acid == '_':  # Stopp kodon funnet
-                protein += ' '
-            protein += amino_acid
+            if amino_acid == ' ':  # Stopp kodon funnet
+                if aminosyre:  # Legg bare til hvis proteinet ikke er tomt
+                    protein.append(aminosyre)
+                aminosyre = ""  # Start en ny sekvens
+            else:
+                aminosyre += amino_acid
         else:
-            print(f"Unknown codon encountered: {codon}")
-            protein += '?'  # Håndter uventede kodoner
+            protein.append('?')  # Marker uventede kodoner
     return protein
-
 
 # Utfør oversettelsen og skriv ut resultatet
 rna = dna_to_rna(seq)
+print(rna)
 protein_sequence = translate(rna)
 print(protein_sequence)
+
+proteiner = {
+    "Hemoglobin Beta" : "MVLSLCAKVEITERNL", 
+    "Insulin" : "MPLALGRAERPSVEVVKVVELV",
+    "Myosin Light Chain" : "MEAERGGGWKVGACWLLNL", 
+    "Collagen Type I Alpha 1" : "MPEGQRKERGGSLGCGGSVLN", 
+    "Lactase" : "MTHSSTLLPRRLMSVSHPCK", 
+    "Actin" : "MDDIYETEQFVDDGVTPES", 
+    "Cytochrome C Oxidase" : "MVDCACFCGGFSA", 
+    "Amylase" : "MAGGAEFLQGLS", 
+    "Keratin" : "MSPEALQVEAGARAGSDP", 
+    "Elastin" : "MAPALPACGAPQAGPP", 
+    "Chymotrypsin" : "MAGQGARTLGCGA", 
+    "Immunoglobulin Heavy Chain" : "MSGPGKLWVVGEGGLE", 
+    "Tubulin" : "MTRSVVLPARFSWFD"   
+}
+
+
