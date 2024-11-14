@@ -2,7 +2,7 @@
 # - finne dna datasett - X
 # - lage program som leser datasett - X
 # - lage prpogroam som krypterer og lager komplimentert RNA-molekyl som tekst eller liste - X
-# - oversikt over aminosyrer i riktig rekkefølge 
+# - oversikt over amino_oversikt i riktig rekkefølge 
 # - stoppe programmet om man finner stopp kodon. X
 
 inputfile = "DNA.txt"
@@ -17,8 +17,9 @@ def dna_to_rna(dna_seq):
     return dna_seq.replace("T", "U") #.replace("A", "U").replace("C", "G").replace("G", "C")
 
 
+
 def translate(rna): 
-    aminosyrer = { 
+    amino_oversikt = { 
         'AUA':'I', 'AUC':'I', 'AUU':'I', 'AUG':'M', 
         'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACU':'T', 
         'AAC':'N', 'AAU':'N', 'AAA':'K', 'AAG':'K', 
@@ -37,42 +38,61 @@ def translate(rna):
         'UGC':'C', 'UGU':'C', 'UGA':' ', 'UGG':'W', 
     } 
     protein = []
-    aminosyre = ""
+    lagre_aminosyre = ""
     for i in range(0, len(rna), 3):
         codon = rna[i:i + 3]
         if len(codon) < 3:
             continue
-        if codon in aminosyrer:
-            amino_acid = aminosyrer[codon]
+        if codon in amino_oversikt:
+            amino_acid = amino_oversikt[codon]
             if amino_acid == ' ':  # Stopp kodon funnet
-                if aminosyre:  # Legg bare til hvis proteinet ikke er tomt
-                    protein.append(aminosyre)
-                aminosyre = ""  # Start en ny sekvens
+                protein.append(lagre_aminosyre)
+                lagre_aminosyre = ""  # Start en ny sekvens
             else:
-                aminosyre += amino_acid
+                lagre_aminosyre += amino_acid 
         else:
             protein.append('?')  # Marker uventede kodoner
     return protein
 
+
+"""
+Tidligere verson
+if lagre_aminosyre:  # Legg bare til hvis proteinet ikke er tomt
+                    protein.append(lagre_aminosyre)
+                lagre_aminosyre = ""  # Start en ny sekvens
+"""
+
+
+
 # Utfør oversettelsen og skriv ut resultatet
 rna = dna_to_rna(seq)
-print(rna)
+#print(rna)
 protein_sequence = translate(rna)
 print(protein_sequence)
 
-proteiner = {
-    "Hemoglobin Beta" : "MVLSLCAKVEITERNL", 
-    "Insulin" : "MPLALGRAERPSVEVVKVVELV",
-    "Myosin Light Chain" : "MEAERGGGWKVGACWLLNL", 
-    "Collagen Type I Alpha 1" : "MPEGQRKERGGSLGCGGSVLN", 
-    "Lactase" : "MTHSSTLLPRRLMSVSHPCK", 
-    "Actin" : "MDDIYETEQFVDDGVTPES", 
-    "Cytochrome C Oxidase" : "MVDCACFCGGFSA", 
-    "Amylase" : "MAGGAEFLQGLS", 
-    "Keratin" : "MSPEALQVEAGARAGSDP", 
-    "Elastin" : "MAPALPACGAPQAGPP", 
-    "Chymotrypsin" : "MAGQGARTLGCGA", 
-    "Immunoglobulin Heavy Chain" : "MSGPGKLWVVGEGGLE", 
-    "Tubulin" : "MTRSVVLPARFSWFD"   
-}
+
+def find_protein():
+    proteiner = {
+        "Hemoglobin Beta" : "MVLSLCAKVEITERNL", 
+        "Insulin" : "MPLALGRAERPSVEVVKVVELV",
+        "Myosin Light Chain" : "MEAERGGGWKVGACWLLNL", 
+        "Collagen Type I Alpha 1" : "MPEGQRKERGGSLGCGGSVLN", 
+        "Lactase" : "MTHSSTLLPRRLMSVSHPCK", 
+        "Actin" : "MDDIYETEQFVDDGVTPES", 
+        "Cytochrome C Oxidase" : "MVDCACFCGGFSA", 
+        "Amylase" : "MAGGAEFLQGLS", 
+        "Keratin" : "MSPEALQVEAGARAGSDP", 
+        "Elastin" : "MAPALPACGAPQAGPP", 
+        "Chymotrypsin" : "MAGQGARTLGCGA", 
+        "Immunoglobulin Heavy Chain" : "MSGPGKLWVVGEGGLE", 
+        "Tubulin" : "MTRSVVLPARFSWFD"   
+    }
+
+    for x in proteiner.values():
+        if x == translate(rna):
+            y = proteiner[x]
+            print(y)
+
+
+find_protein()
 
