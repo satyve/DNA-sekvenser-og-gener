@@ -88,11 +88,15 @@ def find_protein():
         "Tubulin" : "MTRSVVLPARFSWFD"   
     }
 
-    for x in proteiner.values():
-        if x == translate(rna):
-            y = proteiner[x]
-            print(y)
+    #translated_protein = ''.join(translate(rna))
 
+    translated_protein = translate(rna)
+
+    # Iterate through each amino acid in the translated protein
+    for amino_acid in translated_protein:
+        for name, sequence in proteiner.items():
+            # Check if the amino acid is in the current protein sequence from the dictionary
+            if amino_acid in sequence:
+                print(f"Fant aminosyrene {amino_acid} som tilsvarer: {name}")
 
 find_protein()
-
