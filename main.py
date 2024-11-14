@@ -3,7 +3,7 @@
 # - lage program som leser datasett - X
 # - lage prpogroam som krypterer og lager komplimentert RNA-molekyl som tekst eller liste - X
 # - oversikt over aminosyrer i riktig rekkefølge 
-# - stoppe programmet om man finner stopp kodon. 
+# - stoppe programmet om man finner stopp kodon. X
 
 inputfile = "DNA.txt"
 with open(inputfile, "r") as f:
@@ -22,7 +22,7 @@ def translate(rna):
         'AUA':'I', 'AUC':'I', 'AUU':'I', 'AUG':'M', 
         'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACU':'T', 
         'AAC':'N', 'AAU':'N', 'AAA':'K', 'AAG':'K', 
-        'AGC':'S', 'AGU':'S', 'AGA':'R', 'AGG':'R',                 
+        'AGC':'S', 'AGU':'S', 'AGA':'R', 'AGG':'R',
         'CUA':'L', 'CUC':'L', 'CUG':'L', 'CUU':'L', 
         'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCU':'P', 
         'CAC':'H', 'CAU':'H', 'CAA':'Q', 'CAG':'Q', 
@@ -75,5 +75,4 @@ proteiner = {
     "Immunoglobulin Heavy Chain" : "MSGPGKLWVVGEGGLE", 
     "Tubulin" : "MTRSVVLPARFSWFD"   
 }
-
 
