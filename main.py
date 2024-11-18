@@ -31,20 +31,26 @@ def translate(rna):
         'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGU':'G',
         'UCA':'S', 'UCC':'S', 'UCG':'S', 'UCU':'S',
         'UUC':'F', 'UUU':'F', 'UUA':'L', 'UUG':'L',
-        'UAC':'Y', 'UAU':'Y', 'UAA':'', 'UAG':'', 'UGA':'',  # Stopp-kodoner
+        'UAC':'Y', 'UAU':'Y', 'UAA':' ', 'UAG':' ', 'UGA':' ',  # Stopp-kodoner
         'UGC':'C', 'UGU':'C', 'UGG':'W',
     }
     
     protein = []
-    for i in range(0, len(rna) - 2, 3):
+    lagre_aminosyre = ""
+    for i in range(0, len(rna), 3):
         codon = rna[i:i + 3]
         if len(codon) < 3:
             continue
-        amino_acid = amino_oversikt.get(codon, '?')
-        if amino_acid == '':  # Stopp-kodon funnet
-            break
-        protein.append(amino_acid)
-    return ''.join(protein)
+        if codon in amino_oversikt:
+            amino_acid = amino_oversikt[codon]
+            if amino_acid == ' ':  # Stopp kodon funnet
+                protein.append(lagre_aminosyre)
+                lagre_aminosyre = ""  # Start en ny sekvens
+            else:
+                lagre_aminosyre += amino_acid 
+        else:
+            protein.append('?')  # Marker uventede kodoner
+    return protein
 
 # Global variabel for proteiner
 proteiner = {
@@ -66,23 +72,18 @@ proteiner = {
 # Utfør oversettelsen
 rna = dna_to_rna(seq)
 protein_sequence = translate(rna)
-print(f"Proteinseksvens: {protein_sequence}")
+# print(rna)
+# print(protein_sequence)
 
-# Funksjon for å finne proteiner i sekvensen
-def find_protein(translated_sequence):
-    funnet_proteiner = []
-    for navn, sekvens in proteiner.items():
-        if sekvens in translated_sequence:
-            funnet_proteiner.append(navn)
 
-    if funnet_proteiner:
-        for protein in funnet_proteiner:
-            print(f"Fant proteinet: {protein}")
-    else:
-        print("Ingen kjente proteiner funnet.")
+def find_protein():
+    for amino_acid in protein_sequence:
+        for name, sequence in proteiner.items():
+            # Check if the amino acid is in the current protein sequence from the dictionary
+            if amino_acid in sequence:
+                print(f"Aminosyrene {amino_acid} tilsvarer: {name}")
 
-# Kjør funksjonen for å finne proteiner
-find_protein(protein_sequence)
+find_protein()
 
 # La brukeren velge et protein fra listen
 print("Velg et protein fra listen:")
@@ -95,11 +96,11 @@ protein_sekvens = proteiner[protein_navn]  # Henter proteinsekvensen
 
 # Funksjon for å visualisere proteinsekvensen som en 3D spiral med etiketter
 def visualize_protein_sequence(protein, navn):
-    theta = np.linspace(0, 2 * np.pi * len(protein), len(protein))
+    vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))
     z = np.linspace(0, 10, len(protein))
     r = 1
-    x = r * np.cos(theta)
-    y = r * np.sin(theta)
+    x = r * np.cos(vinkel)
+    y = r * np.sin(vinkel)
     
     figur = plt.figure()
     ax = figur.add_subplot(111, projection='3d')
