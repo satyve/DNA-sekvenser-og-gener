@@ -2,6 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+# Les DNA-sekvens fra fil
+inputfile = "Larven.txt"
+with open(inputfile, "r") as f:
+    seq = f.read()
+
+# Fjerner linjeskift
+seq = seq.replace("\n", "").replace("\r", "")
 
 # Funksjon for å konvertere DNA-sekvens til RNA
 def dna_to_rna(dna_seq):
