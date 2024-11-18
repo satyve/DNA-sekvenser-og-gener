@@ -94,6 +94,9 @@ def visualize_protein_sequence(protein, navn):
         else:
             farge = 'olivedrab'
 
+        #ax.scatter(1.15, 0, 10, color='yellow', s=60)  # Første prikk
+        #ax.scatter(0.85, 0, 10, color='blue', s=60)  # Andre prikk på samme sted
+
         ax.scatter(x[i], y[i], z[i], color=farge, s=800)
         ax.text(x[i], y[i], z[i], protein[i], size=8, color=farge)
 
