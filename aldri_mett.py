@@ -73,13 +73,35 @@ proteiner = {
     "Tubulin": "MTRSVVLPARFSWFD"
 }
 
-# Velg et protein fra listen
+# # Velg et protein fra listen
+# print("Velg et protein fra listen:")
+# for i, navn in enumerate(proteiner.keys()):
+#     print(f"{i + 1}. {navn}")
+
+# Utfør oversettelsen
+rna = dna_to_rna(seq)
+protein_sequence = translate(rna)
+# print(rna)
+# print(protein_sequence)
+
+de_funnet = []
+def find_protein():
+    for amino_acid in protein_sequence:
+        for name, sequence in proteiner.items():
+            # Check if the amino acid is in the current protein sequence from the dictionary
+            if amino_acid in sequence:
+                print(f"Aminosyrene {amino_acid} tilsvarer: {name}")
+                #de_funnet.append(name)
+
+find_protein()
+
+# La brukeren velge et protein fra listen
 print("Velg et protein fra listen:")
-for i, navn in enumerate(proteiner.keys()):
+for i, navn in enumerate(de_funnet):
     print(f"{i + 1}. {navn}")
 
-valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
-protein_navn = list(proteiner.keys())[valg]
+valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1  # Brukeren velger et nummer
+protein_navn = de_funnet[valg] #list(proteiner.keys())[valg]  # Finner navnet på proteinet basert på valget
 protein_sekvens = proteiner[protein_navn]
 
 # Funksjon for å visualisere proteinsekvensen
