@@ -106,11 +106,11 @@ protein_sekvens = proteiner[protein_navn]
 
 # Funksjon for å visualisere proteinsekvensen
 def visualize_protein_sequence(protein, navn):
-    theta = np.linspace(0, 2 * np.pi * len(protein), len(protein))
+    vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))
     z = np.linspace(0, 10, len(protein))
     r = 1
-    x = r * np.cos(theta)
-    y = r * np.sin(theta)
+    x = r * np.cos(vinkel)
+    y = r * np.sin(vinkel)
 
     figur = plt.figure()
     ax = figur.add_subplot(111, projection='3d')
