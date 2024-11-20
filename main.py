@@ -104,7 +104,7 @@ def visualiser_protein_sekvens(protein, navn):
     y = r * np.sin(vinkel)  
     
     figur = plt.figure()  # Oppretter en ny figur for 3D-plot
-    ax = figur.add_subplot(111, projection='3d')  # Legger til en 3D-akse
+    ax = figur.add_subplot(111, projection='3d')  # Legger til en 3D-akse, funksjon hentes fra mpl_toolkits.mplot3d
     # 111 = én rad, én kolonne, og er det første (og eneste) plottet i denne matrisen
     
     for i in range(len(protein)):  # Itererer gjennom aminosyrer i sekvensen
