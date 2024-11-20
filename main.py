@@ -51,8 +51,7 @@ def translate(rna):
         else:
             protein.append('?')  # Marker uventede kodoner
     return protein
-
-# Global variabel for proteiner
+# Global variabel som inneholder kjente proteiner med navn og sekvenser
 proteiner = {
     "Hemoglobin Beta": "MVLSLCAKVEITERNL", 
     "Insulin": "MPLALGRAERPSVEVVKVVELV",
@@ -69,54 +68,56 @@ proteiner = {
     "Tubulin": "MTRSVVLPARFSWFD"   
 }
 
-# Utfør oversettelsen
-rna = dna_to_rna(seq)
-protein_sequence = translate(rna)
-# print(rna)
-# print(protein_sequence)
+# Utfører oversettelsen fra RNA til proteinsekvenser
+rna = dna_to_rna(seq)  # Konverterer DNA til RNA
+protein_sequence = translate(rna)  # Oversetter RNA til aminosyrer
 
+# Liste for å lagre navn på proteiner som matcher funnet aminosyresekvens
 de_funnet = []
+
+# Funksjon som sammenligner den funnet proteinsekvensen med kjente proteiner
 def find_protein():
-    for amino_acid in protein_sequence:
-        for name, sequence in proteiner.items():
-            # Check if the amino acid is in the current protein sequence from the dictionary
-            if amino_acid in sequence:
+    for amino_acid in protein_sequence:  # Går gjennom aminosyresekvenser fra RNA-oversettelsen
+        for name, sequence in proteiner.items():  # Sjekker mot hver kjent proteinsekvens
+            if amino_acid in sequence:  # Ser etter match mellom aminosyrer og proteinsekvenser
                 print(f"Aminosyrene {amino_acid} tilsvarer: {name}")
-                de_funnet.append(name)
+                de_funnet.append(name)  # Legger til proteinet i listen over funn
 
 find_protein()
-print(de_funnet)
 
-# La brukeren velge et protein fra listen
+# Lar brukeren velge et protein fra listen over funn
 print("Velg et protein fra listen:")
-for i, navn in enumerate(de_funnet):
+for i, navn in enumerate(de_funnet):  # Viser tilgjengelige valg med nummerering
     print(f"{i + 1}. {navn}")
 
-valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1  # Brukeren velger et nummer
-protein_navn = de_funnet[valg] #list(proteiner.keys())[valg]  # Finner navnet på proteinet basert på valget
-protein_sekvens = proteiner[protein_navn]  # Henter proteinsekvensen
+valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1  # Brukerens valg
+protein_navn = de_funnet[valg]  # Henter navnet på proteinet basert på brukerens valg
+protein_sekvens = proteiner[protein_navn]  # Finner proteinsekvensen for det valgte proteinet
 
-# Funksjon for å visualisere proteinsekvensen som en 3D spiral med etiketter
-def visualize_protein_sequence(protein, navn):
-    vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))
-    z = np.linspace(0, 10, len(protein))
-    r = 1
-    x = r * np.cos(vinkel)
-    y = r * np.sin(vinkel)
+# Funksjon for å visualisere proteinsekvensen som en 3D-spiral med etiketter
+def visualiser_protein_sekvens(protein, navn):
+    # Genererer en spiral ved hjelp av trigonometri og linære avstander
+    vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))  # Vinklene for spiral
+    z = np.linspace(0, 10, len(protein))  # Z-koordinater for høyden
+    r = 1  # radius 
+    x = r * np.cos(vinkel) 
+    y = r * np.sin(vinkel)  
     
-    figur = plt.figure()
-    ax = figur.add_subplot(111, projection='3d')
+    figur = plt.figure()  # Oppretter en ny figur for 3D-plot
+    ax = figur.add_subplot(111, projection='3d')  # Legger til en 3D-akse
+    # 111 = én rad, én kolonne, og er det første (og eneste) plottet i denne matrisen
     
-    for i in range(len(protein)):
-        ax.scatter(x[i], y[i], z[i], s=25)
-        ax.text(x[i] + 0.1, y[i], z[i] + 0.1, protein[i], size=10, color='red')
+    for i in range(len(protein)):  # Itererer gjennom aminosyrer i sekvensen
+        ax.scatter(x[i], y[i], z[i], s=25)  # Plotter punkter på spiralen
+        ax.text(x[i] + 0.1, y[i], z[i] + 0.1, protein[i], size=10, color='red')  # Legger til etiketter
     
+    # Setter aksetitler og diagramtittel
     ax.set_xlabel('X-akse')
     ax.set_ylabel('Y-akse')
     ax.set_zlabel('Z-akse')
     ax.set_title(f'3D Spiral av Proteinsekvens: {navn}')
     
-    plt.show()
+    plt.show()  # Viser diagrammet
 
-# Visualiserer det valgte proteinet
-visualize_protein_sequence(protein_sekvens, protein_navn)
+# Visualiserer den valgte proteinsekvensen
+visualiser_protein_sekvens(protein_sekvens, protein_navn)
