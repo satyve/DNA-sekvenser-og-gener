@@ -15,7 +15,7 @@ def dna_to_rna(dna_seq):
     return dna_seq.replace("T", "U")
 
 # Funksjon for å oversette RNA til aminosyresekvens
-def translate(rna):
+def oversett(rna):
     amino_oversikt = { 
         'AUA':'I', 'AUC':'I', 'AUU':'I', 'AUG':'M',
         'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACU':'T',
@@ -70,7 +70,7 @@ proteiner = {
 
 # Utfører oversettelsen fra RNA til proteinsekvenser
 rna = dna_to_rna(seq)  # Konverterer DNA til RNA
-protein_sequence = translate(rna)  # Oversetter RNA til aminosyrer
+protein_sequence = oversett(rna)  # Oversetter RNA til aminosyrer
 
 # Liste for å lagre navn på proteiner som matcher funnet aminosyresekvens
 de_funnet = []

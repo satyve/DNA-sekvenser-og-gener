@@ -15,7 +15,7 @@ def dna_to_rna(dna_seq):
     return dna_seq.replace("T", "U")
  
 # Funksjon for å oversette RNA-sekvens til en aminosyresekvens (protein)
-def translate(rna):
+def oversett(rna):
     amino_oversikt = {
         'AUA':'I', 'AUC':'I', 'AUU':'I', 'AUG':'M',
         'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACU':'T',
@@ -80,7 +80,7 @@ proteiner = {
  
 # Utfør oversettelsen
 rna = dna_to_rna(seq)
-protein_sequence = translate(rna)
+protein_sequence = oversett(rna)
 # print(rna)
 # print(protein_sequence)
 de_funnet = []
@@ -94,7 +94,7 @@ def find_protein():
  
 # Utfør oversettelsen
 rna = dna_to_rna(seq)
-protein_sequence = translate(rna)
+protein_sequence = oversett(rna)
  
  
 # Finn proteiner
@@ -115,7 +115,7 @@ else:
     
  
 # Funksjon for å visualisere proteinsekvensen
-def visualize_protein_sequence(protein, navn):
+def visualiser_protein_sekvens(protein, navn):
     vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))
     z = np.linspace(0, 10, len(protein))
     r = 1
@@ -147,4 +147,4 @@ def visualize_protein_sequence(protein, navn):
     plt.show()
  
 # Visualiserer det valgte proteinet
-visualize_protein_sequence(protein_sekvens, protein_navn)
+visualiser_protein_sekvens(protein_sekvens, protein_navn)
