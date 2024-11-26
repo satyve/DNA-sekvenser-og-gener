@@ -47,61 +47,43 @@ class DNAhåndtering:
                 lagre_aminosyre += amino_acid
         else:
             protein.append('?')  # Marker uventede kodoner
-    return protein
+        return protein
 
 
-proteiner = {
-    "Hemoglobin Beta": "MVLSLCAKVEITERNL", 
-    "Insulin": "MPLALGRAERPSVEVVKVVELV",
-    "Myosin Light Chain": "MEAERGGGWKVGACWLLNL", 
-    "Collagen Type I Alpha 1": "MPEGQRKERGGSLGCGGSVLN", 
-    "Lactase": "MTHSSTLLPRRLMSVSHPCK", 
-    "Actin": "MDDIYETEQFVDDGVTPES", 
-    "Cytochrome C Oxidase": "MVDCACFCGGFSA", 
-    "Amylase": "MAGGAEFLQGLS", 
-    "Keratin": "MSPEALQVEAGARAGSDP", 
-    "Elastin": "MAPALPACGAPQAGPP", 
-    "Chymotrypsin": "MAGQGARTLGCGA", 
-    "Immunoglobulin Heavy Chain": "MSGPGKLWVVGEGGLE", 
-    "Tubulin": "MTRSVVLPARFSWFD"   
-}
-
-def find_protein(protein_sequence):
-    de_funnet = []
-    print()
-    print(f"AMINOSYRE SEKVENSENE:   TILSVARER:")
-    for amino_acid in protein_sequence:  # Går gjennom aminosyresekvenser fra RNA-oversettelsen
-        for name, sequence in proteiner.items():  # Sjekker mot hver kjent proteinsekvens
-            if amino_acid in sequence:  # Ser etter match mellom aminosyrer og proteinsekvenser
-                print(f"{amino_acid:<23} {name:<5}") 
-                de_funnet.append(name)  # Legger til proteinet i listen over funn
-    print()
-    return de_funnet
-
-# Funksjon for å sette farge basert på proteinindeks
-def fargen(i, protein):
-    if i == len(protein) - 1:
-        return 'darkred'
-    elif i % 2 == 0:
-        return 'darkgreen'
-    else:
-        return 'olivedrab'
-
-def visualiser_protein_sekvens(protein, navn, aldri_mett):
-    vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))
-    z = np.linspace(0, 10, len(protein))
-    r = 1
-    x = r * np.cos(vinkel)
-    y = r * np.sin(vinkel)
- 
-    figur = plt.figure()
-    ax = figur.add_subplot(111, projection='3d')
- 
-    for i in range(len(protein)):
-        if aldri_mett == "ja":
-            farge = fargen(i, protein)  # Kall fargen-funksjonen
-            ax.scatter(x[i], y[i], z[i], color=farge, s=800)
-            ax.text(x[i], y[i], z[i], protein[i], size=8, color=farge)
+    proteiner = {
+        "Hemoglobin Beta": "MVLSLCAKVEITERNL", 
+        "Insulin": "MPLALGRAERPSVEVVKVVELV",
+        "Myosin Light Chain": "MEAERGGGWKVGACWLLNL", 
+        "Collagen Type I Alpha 1": "MPEGQRKERGGSLGCGGSVLN", 
+        "Lactase": "MTHSSTLLPRRLMSVSHPCK", 
+        "Actin": "MDDIYETEQFVDDGVTPES", 
+        "Cytochrome C Oxidase": "MVDCACFCGGFSA", 
+        "Amylase": "MAGGAEFLQGLS", 
+        "Keratin": "MSPEALQVEAGARAGSDP", 
+        "Elastin": "MAPALPACGAPQAGPP", 
+        "Chymotrypsin": "MAGQGARTLGCGA", 
+        "Immunoglobulin Heavy Chain": "MSGPGKLWVVGEGGLE", 
+        "Tubulin": "MTRSVVLPARFSWFD"   
+    }
+    
+    def find_protein(self, protein_sequence):
+        de_funnet = []
+        print()
+        print(f"AMINOSYRE SEKVENSENE:   TILSVARER:")
+        for amino_acid in protein_sequence:  # Går gjennom aminosyresekvenser fra RNA-oversettelsen
+            for name, sequence in self.proteiner.items():  # Sjekker mot hver kjent proteinsekvens
+                if amino_acid in sequence:  # Ser etter match mellom aminosyrer og proteinsekvenser
+                    print(f"{amino_acid:<23} {name:<5}") 
+                    de_funnet.append(name)  # Legger til proteinet i listen over funn
+        print()
+        return de_funnet
+    
+    # Funksjon for å sette farge basert på proteinindeks
+    def fargen(self, i, protein):
+        if i == len(protein) - 1:
+            return 'darkred'
+        elif i % 2 == 0:
+            return 'darkgreen'
         else:
             return 'olivedrab'
     
@@ -121,29 +103,56 @@ def visualiser_protein_sekvens(protein, navn, aldri_mett):
                 ax.scatter(x[i], y[i], z[i], color=farge, s=800)
                 ax.text(x[i], y[i], z[i], protein[i], size=8, color=farge)
             else:
+                return 'olivedrab'
+        
+    def visualiser_protein_sekvens(self, protein, navn, aldri_mett):
+        vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))
+        z = np.linspace(0, 10, len(protein))
+        r = 1
+        x = r * np.cos(vinkel)
+        y = r * np.sin(vinkel)
+         
+        figur = plt.figure()
+        ax = figur.add_subplot(111, projection='3d')
+         
+        for i in range(len(protein)):
+            if aldri_mett == "ja":
+                farge = self.fargen(i, protein)  # Kall fargen-funksjonen
+                ax.scatter(x[i], y[i], z[i], color=farge, s=800)
+                ax.text(x[i], y[i], z[i], protein[i], size=8, color=farge)
+            else:
                 ax.scatter(x[i], y[i], z[i], s=25)  # Plotter punkter på spiralen
                 ax.text(x[i] + 0.1, y[i], z[i] + 0.1, protein[i], size=10, color='red')
-
-    # finner proteinene
-    de_funnet = find_protein(protein_sequence)
-    print("Funnet proteiner:", de_funnet)
-    print()
-    print("----------------------------------------------------------")
-    # sjekker om noen er funnet
-    if not de_funnet:
-        print("Ingen proteiner ble funnet som samsvarer med sekvensen.")
-    else:
-        # Lar folk (Rasmus og oss) velge hvilket protein vi ønkser å se
-        print("Velg et protein fra listen:")
-        for i, navn in enumerate(de_funnet):
-            print(f"   {i + 1}. {navn}")
-        print("----------------------------------------------------------")
-        
-        valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
-        protein_navn = de_funnet[valg]
-        protein_sekvens = proteiner[protein_navn]
-
-        return protein_navn, protein_sekvens
     
-
-#print("+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+")
+        # finner proteinene
+        de_funnet = find_protein(self, )
+        print("Funnet proteiner:", de_funnet)
+        print()
+        print("----------------------------------------------------------")
+        # sjekker om noen er funnet
+        if not de_funnet:
+            print("Ingen proteiner ble funnet som samsvarer med sekvensen.")
+        else:
+            # Lar folk (Rasmus og oss) velge hvilket protein vi ønkser å se
+            print("Velg et protein fra listen:")
+            for i, navn in enumerate(de_funnet):
+                print(f"   {i + 1}. {navn}")
+            print("----------------------------------------------------------")
+            
+            valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
+            protein_navn = de_funnet[valg]
+            protein_sekvens = self.proteiner[protein_navn]
+    
+            return protein_navn, protein_sekvens
+        
+    
+    #print("+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+")
+    def analyser_og_hent_protein(self):
+        rna = self.dna_to_rna()  # Konverterer DNA til RNA
+        protein_sekvens = self.oversett(rna)  # Oversetter RNA til aminosyrer
+        # Finne proteiner som matcher sekvensen
+        de_funnet = self.find_protein(protein_sekvens)  
+        if de_funnet:  # Hvis proteiner er funnet, returner første resultat
+            protein_navn = de_funnet[0]
+            return protein_navn, self.proteiner[protein_navn]  # Returner både navn og sekvens
+        return None, None  # Hvis ingen proteiner finnes

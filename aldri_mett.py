@@ -6,7 +6,7 @@ with open(inputfile, "r") as f:
     seq = f.read()
 
 analysering = DNAhåndtering(seq)
-protein_navn, protein_sekvens = analysering.analyser_protein()
+protein_navn, protein_sekvens = analysering.analyser_og_hent_protein()
 
 # Visualiserer det valgte proteinet
 analysering.visualiser_protein_sekvens(protein_sekvens, protein_navn, "ja")
