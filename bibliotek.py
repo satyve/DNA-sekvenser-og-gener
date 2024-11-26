@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+
 def dna_to_rna(dna_seq):
     return dna_seq.replace("T", "U")
 
@@ -68,26 +69,38 @@ def find_protein(protein_sequence):
                 de_funnet.append(name)  # Legger til proteinet i listen over funn
     return de_funnet
 
-def visualiser_protein_sekvens(protein, navn):
-    # Genererer en spiral ved hjelp av trigonometri og linære avstander
-    vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))  # Vinklene for spiral
-    z = np.linspace(0, 10, len(protein))  # Z-koordinater for høyden
-    r = 1  # radius 
-    x = r * np.cos(vinkel) 
-    y = r * np.sin(vinkel)  
-    
-    figur = plt.figure()  # Oppretter en ny figur for 3D-plot
-    ax = figur.add_subplot(111, projection='3d')  # Legger til en 3D-akse, funksjon hentes fra mpl_toolkits.mplot3d
-    # 111 = én rad, én kolonne, og er det første (og eneste) plottet i denne matrisen
-    
-    for i in range(len(protein)):  # Itererer gjennom aminosyrer i sekvensen
-        ax.scatter(x[i], y[i], z[i], s=25)  # Plotter punkter på spiralen
-        ax.text(x[i] + 0.1, y[i], z[i] + 0.1, protein[i], size=10, color='red')  # Legger til etiketter
-    
-    # Setter aksetitler og diagramtittel
+# Funksjon for å sette farge basert på proteinindeks
+def fargen(i, protein):
+    if i == len(protein) - 1:
+        return 'darkred'
+    elif i % 2 == 0:
+        return 'darkgreen'
+    else:
+        return 'olivedrab'
+
+def visualiser_protein_sekvens(protein, navn, aldri_mett):
+    vinkel = np.linspace(0, 2 * np.pi * len(protein), len(protein))
+    z = np.linspace(0, 10, len(protein))
+    r = 1
+    x = r * np.cos(vinkel)
+    y = r * np.sin(vinkel)
+ 
+    figur = plt.figure()
+    ax = figur.add_subplot(111, projection='3d')
+ 
+    for i in range(len(protein)):
+        if aldri_mett == "ja":
+            farge = fargen(i, protein)  # Kall fargen-funksjonen
+            ax.scatter(x[i], y[i], z[i], color=farge, s=800)
+            ax.text(x[i], y[i], z[i], protein[i], size=8, color=farge)
+        else:
+            ax.scatter(x[i], y[i], z[i], s=25)  # Plotter punkter på spiralen
+            ax.text(x[i] + 0.1, y[i], z[i] + 0.1, protein[i], size=10, color='red')
+
+ 
     ax.set_xlabel('X-akse')
     ax.set_ylabel('Y-akse')
     ax.set_zlabel('Z-akse')
     ax.set_title(f'3D Spiral av Proteinsekvens: {navn}')
-    
-    plt.show()  # Viser diagrammet
+ 
+    plt.show()
