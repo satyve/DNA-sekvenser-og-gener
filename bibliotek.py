@@ -104,3 +104,30 @@ def visualiser_protein_sekvens(protein, navn, aldri_mett):
     ax.set_title(f'3D Spiral av Proteinsekvens: {navn}')
  
     plt.show()
+
+def analyser_protein(seq, dna_to_rna, oversett, find_protein, proteiner):
+    # Rydder. Fjerner linjeskift 
+    seq = seq.replace("\n", "").replace("\r", "")
+    
+    # utfører oversettelsen
+    rna = dna_to_rna(seq)
+    protein_sequence = oversett(rna)
+    
+    # finner proteinene
+    de_funnet = find_protein(protein_sequence)
+    print("Funnet proteiner:", de_funnet)
+
+    # sjekker om noen er funnet
+    if not de_funnet:
+        print("Ingen proteiner ble funnet som samsvarer med sekvensen.")
+    else:
+        # Lar folk (Rasmus og oss) velge hvilket protein vi ønkser å se
+        print("Velg et protein fra listen:")
+        for i, navn in enumerate(de_funnet):
+            print(f"{i + 1}. {navn}")
+        
+        valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
+        protein_navn = de_funnet[valg]
+        protein_sekvens = proteiner[protein_navn]
+        
+        return protein_navn, protein_sekvens
