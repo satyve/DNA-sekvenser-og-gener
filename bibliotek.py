@@ -64,7 +64,7 @@ class DNAhåndtering:
         "Tubulin": "MTRSVVLPARFSWFD"   
     }
     
-    def find_protein(self, protein_sequence):
+    def finn_protein(self, protein_sequence):
         de_funnet = []
         for amino_acid in protein_sequence:  # Går gjennom aminosyresekvenser fra RNA-oversettelsen
             for name, sequence in self.proteiner.items():  # Sjekker mot hver kjent proteinsekvens
@@ -114,7 +114,7 @@ class DNAhåndtering:
         rna = self.dna_to_rna()
         protein_sequence = self.oversett(rna)
         
-        de_funnet = self.find_protein(protein_sequence)
+        de_funnet = self.finn_protein(protein_sequence)
         print(f"Funnet proteiner: {de_funnet}")
         
         if not de_funnet:
