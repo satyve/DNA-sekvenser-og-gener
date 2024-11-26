@@ -67,7 +67,7 @@ def find_protein(protein_sequence):
     for amino_acid in protein_sequence:  # Går gjennom aminosyresekvenser fra RNA-oversettelsen
         for name, sequence in proteiner.items():  # Sjekker mot hver kjent proteinsekvens
             if amino_acid in sequence:  # Ser etter match mellom aminosyrer og proteinsekvenser
-                print(f"{amino_acid:<23} {name:<5}") #print(f"{'Aminosyrene':<15} {amino_acid:<15} {'tilsvarer:':<20} {name:<5}")  #print(f"Aminosyrene {amino_acid} tilsvarer: {name}")
+                print(f"{amino_acid:<23} {name:<5}") 
                 de_funnet.append(name)  # Legger til proteinet i listen over funn
     print()
     return de_funnet
