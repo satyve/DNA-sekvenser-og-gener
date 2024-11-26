@@ -62,11 +62,14 @@ proteiner = {
 
 def find_protein(protein_sequence):
     de_funnet = []
+    print()
+    print(f"AMINOSYRE SEKVENSENE:   TILSVARER:")
     for amino_acid in protein_sequence:  # Går gjennom aminosyresekvenser fra RNA-oversettelsen
         for name, sequence in proteiner.items():  # Sjekker mot hver kjent proteinsekvens
             if amino_acid in sequence:  # Ser etter match mellom aminosyrer og proteinsekvenser
-                print(f"Aminosyrene {amino_acid} tilsvarer: {name}")
+                print(f"{amino_acid:<23} {name:<5}") #print(f"{'Aminosyrene':<15} {amino_acid:<15} {'tilsvarer:':<20} {name:<5}")  #print(f"Aminosyrene {amino_acid} tilsvarer: {name}")
                 de_funnet.append(name)  # Legger til proteinet i listen over funn
+    print()
     return de_funnet
 
 # Funksjon for å sette farge basert på proteinindeks
@@ -116,7 +119,8 @@ def analyser_protein(seq, dna_to_rna, oversett, find_protein, proteiner):
     # finner proteinene
     de_funnet = find_protein(protein_sequence)
     print("Funnet proteiner:", de_funnet)
-
+    print()
+    print("----------------------------------------------------------")
     # sjekker om noen er funnet
     if not de_funnet:
         print("Ingen proteiner ble funnet som samsvarer med sekvensen.")
@@ -124,10 +128,14 @@ def analyser_protein(seq, dna_to_rna, oversett, find_protein, proteiner):
         # Lar folk (Rasmus og oss) velge hvilket protein vi ønkser å se
         print("Velg et protein fra listen:")
         for i, navn in enumerate(de_funnet):
-            print(f"{i + 1}. {navn}")
+            print(f"   {i + 1}. {navn}")
+        print("----------------------------------------------------------")
         
         valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
         protein_navn = de_funnet[valg]
         protein_sekvens = proteiner[protein_navn]
-        
+
         return protein_navn, protein_sekvens
+    
+
+#print("+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+.+*+")
