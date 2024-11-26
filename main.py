@@ -4,6 +4,8 @@ from bibliotek import dna_to_rna, oversett, find_protein, proteiner, visualiser_
 inputfile = "DNA.txt"
 with open(inputfile, "r") as f:
     seq = f.read()
+
+# Fjerner linjeskift
 seq = seq.replace("\n", "").replace("\r", "")
 
 # Konverter DNA til RNA og oversett
@@ -13,7 +15,6 @@ protein_sequence = oversett(rna_sequence)
 # Finn proteiner
 de_funnet = find_protein(protein_sequence)
 print("Funnet proteiner:", de_funnet)
-
 find_protein(protein_sequence)
 
 # Lar brukeren velge et protein fra listen over funn
@@ -28,4 +29,4 @@ protein_sekvens = proteiner[protein_navn]  # Finner proteinsekvensen for det val
 # Funksjon for å visualisere proteinsekvensen som en 3D-spiral med etiketter
 
 # Visualiserer den valgte proteinsekvensen
-visualiser_protein_sekvens(protein_sekvens, protein_navn)
+visualiser_protein_sekvens(protein_sekvens, protein_navn, "nei")
