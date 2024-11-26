@@ -1,11 +1,12 @@
-from bibliotek import dna_to_rna, oversett, find_protein, proteiner, visualiser_protein_sekvens, analyser_protein
+from bibliotek import DNAhåndtering
 
 # Les DNA-sekvens fra fil
 inputfile = "DNA.txt"
 with open(inputfile, "r") as f:
     seq = f.read()
 
-protein_navn, protein_sekvens = analyser_protein(seq, dna_to_rna, oversett, find_protein, proteiner)
+analysering = DNAhåndtering(seq)
+protein_navn, protein_sekvens = analysering.analyser_protein()
 
 # Visualiserer den valgte proteinsekvensen
-visualiser_protein_sekvens(protein_sekvens, protein_navn, "nei")
+analysering.visualiser_protein_sekvens(protein_sekvens, protein_navn, "nei")
