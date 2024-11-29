@@ -69,11 +69,17 @@ class Proteinhåndtering:
 
     def find_protein(self):
         de_funnet = []
+        print()
+        print("----------------------------------------------------------")
+        print(f"AMINOSYRE SEKVENSENE:   TILSVARER:")
+        print()
         for amino_acid in self.protein_sequence:  # Går gjennom aminosyresekvenser fra RNA-oversett_rna_til_aminoelsen
             for name, sequence in self.proteiner.items():  # Sjekker mot hver kjent proteinsekvens
                 if amino_acid in sequence:  # Ser etter match mellom aminosyrer og proteinsekvenser
-                    print(f"Aminosyrene {amino_acid} tilsvarer: {name}")
+                    print(f"{amino_acid:<23} {name:<5}") #print(f"{'Aminosyrene':<15} {amino_acid:<15} {'tilsvarer:':<20} {name:<5}") 
                     de_funnet.append(name)  # Legger til proteinet i listen over funn
+        print("----------------------------------------------------------")
+        print()            
         return de_funnet
 
 
@@ -142,16 +148,21 @@ class Utfør_funksjoner(Dna, Proteinhåndtering, Proteinvisualisering):
 
         # finner proteinene
         de_funnet = self.find_protein()
-        print("Funnet proteiner:", de_funnet)
+        #print("Funnet proteiner:", de_funnet)
+        #print()
+        print("----------------------------------------------------------")
         # sjekker om noen er funnet
         if not de_funnet:
             print("Ingen proteiner ble funnet som samsvarer med sekvensen.")
         else:
             # Lar folk (Rasmus og oss) velge hvilket protein vi ønkser å se
+            print()
             print("Velg et protein fra listen:")
+            print()
             for i, navn in enumerate(de_funnet):
-                print(f"{i + 1}. {navn}")
-            
+                print(f"   {i + 1}. {navn}")
+            print()
+            print("----------------------------------------------------------")
             valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
             protein_navn = de_funnet[valg]
             protein_sekvens =self.proteiner[protein_navn]
@@ -161,49 +172,3 @@ class Utfør_funksjoner(Dna, Proteinhåndtering, Proteinvisualisering):
             self.visualiser_protein_sekvens(self.protein, self.name, self.aldri_mett)
             
             return protein_navn, protein_sekvens
-        
-"""
-class Utfør_funksjoner(Dna, Proteinhåndtering, Proteinvisualisering):
-    
-    def __init__(self, seq, aldri_mett = "Nei"):
-        # Initialiserer begge baseklassene riktig
-        Dna.__init__(self, seq)  # Initialiserer Dna med sekvensen
-        Proteinhåndtering.__init__(self, "")  # Initialiserer Proteinhåndtering med en tom streng (kan endres senere)
-        Proteinvisualisering.__init__(self, "", "")
-
-        self.aldri_mett = aldri_mett
-
-    def analyser_protein(self):
-        # Rydder og fjerner linjeskift
-        self.seq = self.seq.replace("\n", "").replace("\r", "")
-    
-        # Utfører oversettelsen fra DNA til RNA og RNA til aminosyrer
-        self.rna = self.dna_to_rna()
-        protein_sequence = self.oversett_rna_til_amino()
-        
-        # Nå har vi en aminosyresekvens som kan brukes videre
-        self.protein_sequence = protein_sequence
-
-        # Bruker find_protein fra Proteinhåndtering
-        de_funnet = self.find_protein()  # Merk at vi ikke sender protein_sequence her, da find_protein bruker self.protein_sequence
-        print("Funnet proteiner:", de_funnet)
-
-        # Sjekker om noen proteiner ble funnet
-        if not de_funnet:
-            print("Ingen proteiner ble funnet som samsvarer med sekvensen.")
-        else:
-            # Lar brukeren velge hvilket protein de vil visualisere
-            print("Velg et protein fra listen:")
-            for i, navn in enumerate(de_funnet):
-                print(f"{i + 1}. {navn}")
-            
-            valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
-            protein_navn = de_funnet[valg]
-            protein_sekvens = self.proteiner[protein_navn]
-
-            self.protein = protein_sekvens
-            self.name = protein_navn
-            self.visualiser_protein_sekvens(self.protein, self.name, self.aldri_mett)
-            
-            return protein_navn, protein_sekvens
-"""
