@@ -1,5 +1,5 @@
 
-from bibliotek import dna_to_rna, oversett, find_protein, proteiner, visualiser_protein_sekvens, analyser_protein
+from bibliotek import Utfør_funksjoner
 
 # Les DNA-sekvens fra fil
 inputfile = "Larven.txt"

@@ -6,7 +6,6 @@ from mpl_toolkits.mplot3d import Axes3D
 class Dna:
     def __init__(self, seq):
         self.seq = seq
-
     def dna_to_rna(self):
         return self.seq.replace("T", "U")
 
@@ -48,9 +47,6 @@ class Dna:
         return protein
 
 class Proteinhåndtering:
-
-    def __init__(self, protein_sequence):
-        self.protein_sequence = protein_sequence
         
     proteiner = {
         "Hemoglobin Beta": "MVLSLCAKVEITERNL", 
@@ -67,6 +63,9 @@ class Proteinhåndtering:
         "Immunoglobulin Heavy Chain": "MSGPGKLWVVGEGGLE", 
         "Tubulin": "MTRSVVLPARFSWFD"   
     }
+
+    def __init__(self, protein_sequence):
+        self.protein_sequence = protein_sequence
 
     def find_protein(self):
         de_funnet = []
@@ -121,27 +120,28 @@ class Proteinvisualisering:
         plt.show()
         
 
-class Utfør_funksjoner(Dna, Proteinhåndtering, Proteinvisualisering):
+class Utfør_funksjoner(Dna, Proteinvisualisering):
     
-    def __init__(self, seq, dna_to_rna, oversett_rna_til_amino, find_protein, proteiner):
-        self.seq = seq
-        #self.dna_to_rna = dna_to_rna
-        #self.oversett_rna_til_amino = oversett_rna_til_amino
-        #self.find_protein = find_protein
-        self.proteiner = proteiner
-        super().__init__(dna_to_rna, oversett_rna_til_amino, find_protein)
-        self.dna_to_rna = dna_to_rna
-        self.oversett_rna_til_amino = oversett_rna_til_amino
-        self.find_protein = find_protein
+    def __init__(self, seq):
+        
+        Dna.__init__(self, seq)
+        Proteinhåndtering.__init__(self, "")
+        
+        #super().__init__(dna_to_rna, oversett_rna_til_amino, find_protein)
+        # self.dna_to_rna = dna_to_rna
+        # self.oversett_rna_til_amino = oversett_rna_til_amino
+        # self.find_protein = find_protein
 
     def analyser_protein(self):
         # Rydder. Fjerner linjeskift 
-        seq = seq.replace("\n", "").replace("\r", "")
-        
+        self.seq = self.seq.replace("\n", "").replace("\r", "")
+    
         # utfører oversett_rna_til_aminoelsen
-        rna = self.dna_to_rna(seq)
-        protein_sequence = self.oversett_rna_til_amino(rna)
+        self.rna = self.dna_to_rna()
+        protein_sequence = self.oversett_rna_til_amino()
         
+        self.protein_sequence = protein_sequence
+
         # finner proteinene
         de_funnet = self.find_protein(protein_sequence)
         print("Funnet proteiner:", de_funnet)
