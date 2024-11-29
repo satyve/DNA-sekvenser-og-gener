@@ -1,12 +1,12 @@
 
-from bibliotek import Utfør_funksjoner
+from bibliotek import Utfør_funksjoner #, Proteinvisualisering
 
 # Les DNA-sekvens fra fil
 inputfile = "Larven.txt"
 with open(inputfile, "r") as f:
     seq = f.read()
 
-protein_navn, protein_sekvens = analyser_protein(seq, dna_to_rna, oversett, find_protein, proteiner)
+start = Utfør_funksjoner(seq, aldri_mett = "Ja")
 
 # Visualiserer det valgte proteinet
-visualiser_protein_sekvens(protein_sekvens, protein_navn, "ja")
+protein_navn, protein_sekvens = start.analyser_protein()

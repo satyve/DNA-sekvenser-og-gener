@@ -103,7 +103,7 @@ class Proteinvisualisering:
         ax = figur.add_subplot(111, projection='3d')
 
         for i in range(len(protein)):
-            if aldri_mett == "ja":
+            if aldri_mett == "Ja":
                 farge = self.fargen(i, protein)  # Kall fargen-funksjonen
                 ax.scatter(x[i], y[i], z[i], color=farge, s=800)
                 ax.text(x[i], y[i], z[i], protein[i], size=8, color=farge)
@@ -118,19 +118,17 @@ class Proteinvisualisering:
         ax.set_title(f'3D Spiral av Proteinsekvens: {navn}')
 
         plt.show()
-        
 
-class Utfør_funksjoner(Dna, Proteinvisualisering):
+
+class Utfør_funksjoner(Dna, Proteinhåndtering, Proteinvisualisering):
     
-    def __init__(self, seq):
+    def __init__(self, seq, aldri_mett = "Nei"):
         
         Dna.__init__(self, seq)
         Proteinhåndtering.__init__(self, "")
-        
-        #super().__init__(dna_to_rna, oversett_rna_til_amino, find_protein)
-        # self.dna_to_rna = dna_to_rna
-        # self.oversett_rna_til_amino = oversett_rna_til_amino
-        # self.find_protein = find_protein
+        Proteinvisualisering.__init__(self, "", "")
+
+        self.aldri_mett = aldri_mett
 
     def analyser_protein(self):
         # Rydder. Fjerner linjeskift 
@@ -143,7 +141,7 @@ class Utfør_funksjoner(Dna, Proteinvisualisering):
         self.protein_sequence = protein_sequence
 
         # finner proteinene
-        de_funnet = self.find_protein(protein_sequence)
+        de_funnet = self.find_protein()
         print("Funnet proteiner:", de_funnet)
         # sjekker om noen er funnet
         if not de_funnet:
@@ -157,5 +155,55 @@ class Utfør_funksjoner(Dna, Proteinvisualisering):
             valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
             protein_navn = de_funnet[valg]
             protein_sekvens =self.proteiner[protein_navn]
+
+            self.protein = protein_sekvens
+            self.name = protein_navn
+            self.visualiser_protein_sekvens(self.protein, self.name, self.aldri_mett)
             
             return protein_navn, protein_sekvens
+        
+"""
+class Utfør_funksjoner(Dna, Proteinhåndtering, Proteinvisualisering):
+    
+    def __init__(self, seq, aldri_mett = "Nei"):
+        # Initialiserer begge baseklassene riktig
+        Dna.__init__(self, seq)  # Initialiserer Dna med sekvensen
+        Proteinhåndtering.__init__(self, "")  # Initialiserer Proteinhåndtering med en tom streng (kan endres senere)
+        Proteinvisualisering.__init__(self, "", "")
+
+        self.aldri_mett = aldri_mett
+
+    def analyser_protein(self):
+        # Rydder og fjerner linjeskift
+        self.seq = self.seq.replace("\n", "").replace("\r", "")
+    
+        # Utfører oversettelsen fra DNA til RNA og RNA til aminosyrer
+        self.rna = self.dna_to_rna()
+        protein_sequence = self.oversett_rna_til_amino()
+        
+        # Nå har vi en aminosyresekvens som kan brukes videre
+        self.protein_sequence = protein_sequence
+
+        # Bruker find_protein fra Proteinhåndtering
+        de_funnet = self.find_protein()  # Merk at vi ikke sender protein_sequence her, da find_protein bruker self.protein_sequence
+        print("Funnet proteiner:", de_funnet)
+
+        # Sjekker om noen proteiner ble funnet
+        if not de_funnet:
+            print("Ingen proteiner ble funnet som samsvarer med sekvensen.")
+        else:
+            # Lar brukeren velge hvilket protein de vil visualisere
+            print("Velg et protein fra listen:")
+            for i, navn in enumerate(de_funnet):
+                print(f"{i + 1}. {navn}")
+            
+            valg = int(input("\nSkriv nummeret til proteinet du vil visualisere: ")) - 1
+            protein_navn = de_funnet[valg]
+            protein_sekvens = self.proteiner[protein_navn]
+
+            self.protein = protein_sekvens
+            self.name = protein_navn
+            self.visualiser_protein_sekvens(self.protein, self.name, self.aldri_mett)
+            
+            return protein_navn, protein_sekvens
+"""
